@@ -1,0 +1,126 @@
+/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); /* Example pixel font */
+
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive; /* Use a pixel font */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #2a0a38; /* Dark purple background */
+  overflow: hidden; /* Prevent scroll if elements go off screen */
+  display: flex; /* Use flexbox to center content */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  min-height: 100vh; /* Full viewport height */
+  position: relative; /* For positioning the title */
+}
+
+.app-background {
+  /* This div will now just act as a container if needed,
+     but the main background is on the body */
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.main-title {
+  position: absolute; /* Position relative to body */
+  top: 20px;
+  left: 30px;
+  color: #c9c9ff; /* Light purple */
+  font-size: 3em; /* Adjust size */
+  text-shadow: 4px 4px 0px #8a2be2; /* Pixelated shadow */
+  letter-spacing: 2px;
+  z-index: 10; /* Ensure it's above other elements */
+}
+
+/* Common pixel button style */
+.pixel-button {
+  background-color: #be8ad3; /* Button background */
+  color: #3b0e4e; /* Button text color */
+  border: none;
+  padding: 10px 20px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.9em;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px 0px #8a2be2; /* Pixelated shadow */
+  border-bottom: 3px solid #8a2be2; /* Bottom border for depth */
+  border-right: 3px solid #8a2be2;
+  border-top: 1px solid #c9c9ff; /* Highlight */
+  border-left: 1px solid #c9c9ff;
+  outline: none;
+  transition: all 0.1s ease-in-out;
+}
+
+.pixel-button:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px #8a2be2;
+}
+
+.pixel-button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px 0px 0px #8a2be2;
+}
+
+.pixel-input {
+  background-color: #c9c9ff; /* Light purple input background */
+  border: 2px solid #8a2be2; /* Darker purple border */
+  padding: 8px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.9em;
+  color: #3b0e4e; /* Dark text color */
+  outline: none;
+  box-shadow: 2px 2px 0px 0px #8a2be2; /* Pixelated shadow */
+  width: calc(100% - 20px); /* Adjust for padding */
+  box-sizing: border-box;
+}
+
+.pixel-input:focus {
+  border-color: #5d1a7b; /* Slightly darker on focus */
+  box-shadow: 3px 3px 0px 0px #5d1a7b;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: #c9c9ff; /* Link color */
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8em;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  margin: 0;
+}
+
+.link-button:hover {
+  color: #be8ad3; /* Hover color */
+}
+
+.error-message {
+  color: #ff6b6b; /* Red error message */
+  font-size: 0.8em;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.logged-in-container {
+  background-color: #3b0e4e; /* Dark purple background for logged-in message */
+  border: 2px solid #be8ad3; /* Light purple border */
+  padding: 30px;
+  box-shadow: 6px 6px 0px 0px #8a2be2; /* Main window shadow */
+  color: #c9c9ff;
+  text-align: center;
+  font-size: 1.2em;
+  max-width: 400px;
+  width: 90%;
+  box-sizing: border-box;
+}
+
+.logout-button {
+  margin-top: 20px;
+}

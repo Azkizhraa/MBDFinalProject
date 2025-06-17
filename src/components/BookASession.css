@@ -1,0 +1,150 @@
+/* src/components/BookASession.css (Updated Version) */
+
+/* --- Base page styles (reused) --- */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #2a0a38;
+    background-image: url('../assets/pixel-stars-background.png');
+    background-size: cover;
+    font-family: 'Press Start 2P', cursive;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+.page-title {
+    font-size: 3em;
+    color: #c9c9ff;
+    text-shadow: 4px 4px 0px #8a2be2;
+    margin-bottom: 20px;
+}
+.back-button {
+    margin-top: 20px;
+    background-color: #a049d1;
+    color: #c9c9ff;
+    border: 3px solid #6b1e9b;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-family: 'Press Start 2P', cursive;
+}
+
+/* --- Booking Window Styles --- */
+.booking-window {
+    background-color: #f0e6f2; /* A very light, almost white purple */
+    border: 5px solid #2a0a38;
+    padding-bottom: 20px;
+    width: 90%;
+    max-width: 380px;
+    color: #2a0a38;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+.window-title-bar {
+    width: 100%;
+    height: 30px;
+    background-color: #dcd1de;
+    border-bottom: 5px solid #2a0a38;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+}
+.window-dots {
+    width: 40px;
+    height: 15px;
+    background-color: #f7768e;
+    border: 2px solid #2a0a38;
+}
+
+/* --- Custom Layout Container --- */
+.layout-container {
+    width: 100%;
+    background-color: #fff;
+    border: 3px solid #be8ad3;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.top-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.main-area {
+    display: flex;
+    justify-content: space-between; /* This creates the gap in the middle */
+}
+.side-column {
+    display: flex;
+    flex-direction: column; /* Stacks items vertically */
+    gap: 10px;
+}
+
+/* --- Computer Box Styles (REVISED) --- */
+.computer-box {
+    border: 3px solid #2a0a38;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease; /* Smooth color change */
+}
+
+/* Default state for an available computer */
+.computer-box.available {
+    background-color: #fddde6; /* Light Pink */
+    cursor: pointer;
+}
+
+/* Hover effect for an available computer */
+.computer-box.available:hover {
+    background-color: #fbcde0; /* Slightly lighter on hover */
+}
+
+/* The style for a computer that the user has CLICKED */
+.computer-box.selected {
+    background-color: #f7768e; /* Darker Pink */
+    color: #fff;
+    border: 3px solid #fff; /* White border to make it pop */
+}
+
+/* The style for computers that are already booked */
+.computer-box.in-use,
+.computer-box.maintenance {
+    background-color: #d63384; /* A very dark, non-selectable pink */
+    color: #f0e6f2;
+    cursor: not-allowed;
+}
+
+/* --- Buttons --- */
+.front-desk-button {
+    background-color: #6b1e9b;
+    color: #fff;
+    border: 3px solid #2a0a38;
+    padding: 10px 20px;
+    font-family: 'Press Start 2P', cursive;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.continue-button {
+    width: 80%;
+    padding: 15px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #f0e6f2;
+    color: #a049d1;
+    border: 3px solid #a049d1;
+}
+
+.continue-button:disabled {
+    background-color: #dcd1de; /* A muted, greyish purple */
+    color: #a799ac;
+    cursor: not-allowed;
+    border-color: #a799ac;
+}

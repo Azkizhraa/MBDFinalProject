@@ -1,0 +1,124 @@
+/* src/components/ViewComputer.css */
+
+/* --- 1. General Page Layout (Adapted from HomePage.css) --- */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #2a0a38;
+  background-image: url('../assets/pixel-stars-background.png');
+  background-size: cover;
+  background-position: center;
+  font-family: 'Press Start 2P', cursive;
+  color: #c9c9ff;
+  padding: 40px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.page-title {
+  font-size: 3em;
+  color: #c9c9ff;
+  text-shadow: 4px 4px 0px #8a2be2;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* --- 2. Table Styles (New, but inspired by your theme) --- */
+.table-container {
+  width: 90%;
+  max-width: 1200px;
+  background-color: rgba(60, 14, 78, 0.8);
+  border: 4px solid #8a2be2;
+  padding: 10px;
+  box-shadow: 6px 6px 0px #1e0528;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  table-layout: fixed; /* TAMBAHKAN INI: Membuat lebar kolom lebih konsisten */
+  word-wrap: break-word; /* TAMBAHKAN INI: Memaksa teks yang sangat panjang untuk turun baris */
+}
+
+th, td {
+  padding: 12px 10px; /* Padding horizontal sedikit dikurangi */
+  border: 2px solid #8a2be2;
+  vertical-align: middle; /* TAMBAHKAN INI: Memastikan konten selalu di tengah secara vertikal */
+}
+
+th {
+  font-size: 0.85em;
+  color: #be8ad3;
+  vertical-align: middle; /* Pastikan ini tetap ada dari langkah sebelumnya */
+
+  /* Mengizinkan teks untuk turun baris jika tidak cukup ruang */
+  white-space: normal; 
+
+  /* Ini untuk memastikan kata yang sangat panjang pun bisa dipotong */
+  word-break: break-word; 
+}
+
+td {
+  font-size: 0.85em;
+}
+
+/* --- 3. Status & Button Styles (Adapted from HomePage.css buttons) --- */
+.status-available {
+  color: #7CFC00; /* Bright Green */
+  font-weight: bold;
+}
+
+.status-in-use {
+  color: #FF4500; /* Orange Red */
+  font-weight: bold;
+}
+
+.status-maintenance {
+  color: #ffffff; /* Red-orange */
+}
+
+.book-button, .book-button-disabled {
+  background-color: #a049d1;
+  color: #c9c9ff;
+  font-family: 'Press Start 2P', cursive;
+  border: 3px solid #6b1e9b;
+  box-shadow: 3px 3px 0px #6b1e9b;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
+.book-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0px #6b1e9b;
+}
+
+.book-button-disabled {
+  background-color: #5d486b; /* Muted purple */
+  cursor: not-allowed;
+  box-shadow: none; /* No shadow for disabled state */
+}
+
+.back-button {
+  margin-top: 40px;
+  background-color: #a049d1;
+  color: #c9c9ff;
+  font-family: 'Press Start 2P', cursive;
+  border: 3px solid #6b1e9b;
+  box-shadow: 4px 4px 0px #6b1e9b;
+  padding: 15px 30px;
+  text-decoration: none;
+}
+
+.col-table   { width: 8%; }
+.col-brand   { width: 10%; }
+.col-cpu     { width: 9%; }
+.col-graphics{ width: 15%; }
+.col-ram     { width: 8%; }
+.col-storage { width: 13%; }
+.col-status  { width: 17%; }
+.col-schedule{ width: 20%; }

@@ -1,0 +1,79 @@
+/* components/Login.css (and also components/SignUp.css) */
+
+.login-container,
+.signup-container {
+  background-color: #3b0e4e; /* Dark purple background for the window itself */
+  border: 2px solid #be8ad3; /* Light purple border */
+  padding: 10px;
+  box-shadow: 6px 6px 0px 0px #8a2be2; /* Main window shadow */
+  position: relative;
+  width: 350px; /* Adjust width as needed */
+  max-width: 90%; /* Ensure responsiveness */
+  box-sizing: border-box;
+}
+
+.login-header,
+.signup-header {
+  background-color: #be8ad3; /* Header bar color */
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #8a2be2; /* Shadow for the header bar */
+  box-shadow: inset 0px -2px 0px 0px #8a2be2; /* Inner shadow for header bar */
+}
+
+.login-title,
+.signup-title {
+  color: #3b0e4e; /* Text color for title */
+  font-size: 1.2em;
+  text-transform: uppercase;
+}
+
+.close-button {
+  background-color: #ff6b6b; /* Red close button */
+  color: #3b0e4e;
+  border: 1px solid #ce2e2e;
+  padding: 3px 7px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8em;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px 0px #ce2e2e;
+}
+
+.close-button:hover {
+  background-color: #ff8a8a;
+}
+
+.login-form,
+.signup-form {
+  padding: 15px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  color: #c9c9ff; /* Label text color */
+  margin-bottom: 5px;
+  font-size: 0.9em;
+}
+
+.login-actions,
+.signup-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.no-account,
+.already-account {
+  color: #c9c9ff;
+  font-size: 0.8em;
+}
+
+/* .login-button and .signup-button inherit all styles from .pixel-button in App.css */
