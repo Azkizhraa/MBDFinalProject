@@ -1,0 +1,147 @@
+/* --- Base page styles (reused) --- */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #2a0a38;
+    background-image: url('../assets/pixel-stars-background.png');
+    background-size: cover;
+    font-family: 'Press Start 2P', cursive;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.page-title {
+    font-size: 3em;
+    color: #c9c9ff;
+    text-shadow: 4px 4px 0px #8a2be2;
+    margin-bottom: 20px;
+}
+.back-button {
+    margin-top: 20px;
+    background-color: #a049d1;
+    color: #c9c9ff;
+    border: 3px solid #6b1e9b;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-family: 'Press Start 2P', cursive;
+}
+
+/* --- Confirmation Window Styles --- */
+.confirmation-window {
+    background-color: #f0e6f2;
+    border: 5px solid #2a0a38;
+    padding: 25px;
+    width: 90%;
+    max-width: 500px;
+    color: #2a0a38;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.computer-summary {
+    background-color: #fff;
+    border: 3px solid #be8ad3;
+    padding: 15px;
+    line-height: 1.5;
+}
+.computer-summary small {
+    font-size: 0.7em;
+    color: #6b1e9b;
+}
+
+.duration-selector p {
+    margin-bottom: 10px;
+}
+.duration-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.duration-controls span {
+    font-size: 1.5em;
+    min-width: 120px;
+}
+.duration-controls button {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5em;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border: 3px solid #2a0a38;
+}
+
+.cost-summary {
+    margin-top: 10px;
+}
+.cost-summary p {
+    margin: 0;
+    font-size: 1em;
+}
+.cost-summary h2 {
+    margin: 5px 0 0 0;
+    font-size: 2.5em;
+    color: #8a2be2;
+}
+
+.confirm-button {
+    width: 100%;
+    padding: 15px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2em;
+    cursor: pointer;
+    background-color: #7CFC00; /* Green for confirmation */
+    color: #2a0a38;
+    border: 3px solid #5a9e00;
+}
+
+.slot-dropdown {
+    width: 100%;
+    padding: 10px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1em;
+    background-color: #fff;
+    border: 3px solid #be8ad3;
+    color: #2a0a38;
+}
+
+.confirm-button:disabled {
+    background-color: #dcd1de;
+    color: #a799ac;
+    cursor: not-allowed;
+    border-color: #a799ac;
+}
+
+.add-hour-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+    background-color: #fff;
+    padding: 10px;
+    border: 3px solid #be8ad3;
+}
+
+.add-hour-button {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5em;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border: 3px solid #2a0a38;
+    flex-shrink: 0;
+}
+
+.selection-summary {
+    line-height: 1.5;
+    text-align: left;
+    font-size: 0.8em;
+}
+
+.selection-summary p {
+    margin: 0;
+}

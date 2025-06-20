@@ -126,10 +126,12 @@
     background-color: #6b1e9b;
     color: #fff;
     border: 3px solid #2a0a38;
-    padding: 10px 20px;
+    padding: 8px 10px;
     font-family: 'Press Start 2P', cursive;
-    cursor: pointer;
+    cursor: default;
     margin-top: 20px;
+    width: 100px; /* Atur lebarnya sesuai keinginan */
+    box-sizing: border-box; /* Penting agar padding tidak menambah lebar */
 }
 .continue-button {
     width: 80%;

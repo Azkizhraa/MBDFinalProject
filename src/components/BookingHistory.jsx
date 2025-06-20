@@ -22,11 +22,7 @@ const BookingHistoryPage = () => {
         // We also fetch the 'brand' from the related 'computer' table
         const { data, error } = await supabase
           .from('transaction')
-          .select(`
-            transaction_id,
-            hourly_cost,
-            computer ( brand ) 
-          `)
+          .select('*, transaction_computer(*, computer(*))')
           .eq('customer_customer_id', user.id); // This is the crucial filter
 
         if (error) throw error;
@@ -62,7 +58,7 @@ const BookingHistoryPage = () => {
                 Transaction ID: {item.transaction_id}
               </div>
               <div className="history-item-body">
-                <p><strong>Computer:</strong> {item.computer ? item.computer.brand : 'N/A'}</p>
+                <p><strong>Computer:</strong> {computerInfo?.brand || 'N/A'} (Table {computerInfo?.table_location || 'N/A'})</p>
                 <p><strong>Cost:</strong> ${item.hourly_cost}</p>
               </div>
             </div>

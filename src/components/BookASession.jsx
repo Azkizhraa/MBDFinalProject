@@ -1,41 +1,49 @@
-// src/components/BookSessionPage.jsx (Updated Version)
+// src/components/BookASession.jsx (Final Corrected Version)
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import './BookASession.css';
 
-const BookSessionPage = () => {
-  const { computerId } = useParams(); // This will be undefined if no ID is in the URL
-  const navigate = useNavigate(); // Initialize navigate
+const BookASession = () => {
+  const { computerId } = useParams();
+  const navigate = useNavigate();
   
-  // If computerId exists, use it. Otherwise, start with null.
   const [selectedComputerId, setSelectedComputerId] = useState(computerId || null);
-  
   const [allComputers, setAllComputers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(''); // State untuk menyimpan pesan error
 
   useEffect(() => {
-    // ... the useEffect hook for fetching computers remains exactly the same ...
     const fetchAllComputers = async () => {
-      const { data, error } = await supabase
-        .from('computer')
-        .select('computer_id, position, status');
-      
-      if (!error) setAllComputers(data);
-      setLoading(false);
+      try {
+        // 👇 FIXED: Query sekarang menggabungkan computer_schedule untuk mendapatkan status
+        const { data, error } = await supabase
+          .from('computer')
+          .select('computer_id, table_location, computer_schedule(status)');
+        
+        if (error) throw error; // Lemparkan error jika ada
+
+        setAllComputers(data);
+
+      } catch (err) {
+        setError(err.message); // Tangkap dan simpan pesan error
+        console.error("Error fetching computer data:", err);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchAllComputers();
   }, []);
 
-  const handleComputerClick = (computer) => {
-    if (computer.status === 'Available') {
+  const handleComputerClick = (computer, status) => {
+    // Hanya izinkan klik jika statusnya 'available'
+    if (status === 'available') {
       setSelectedComputerId(computer.computer_id);
     }
   };
 
   const handleContinue = () => {
     if (selectedComputerId) {
-      // Navigate to the next page, passing the selected computer ID
       navigate(`/confirm-booking/${selectedComputerId}`);
     } else {
       alert("Please select an available computer.");
@@ -43,69 +51,74 @@ const BookSessionPage = () => {
   };
 
   if (loading) return <div className="page-container"><h1 className="page-title">Loading...</h1></div>;
+  if (error) return <div className="page-container"><h1 className="page-title">Error: {error}</h1></div>;
 
   return (
     <div className="page-container">
-      <h1 className="page-title">Book Session</h1>
+      <h1 className="page-title">Book A Session</h1>
       <div className="booking-window">
-        {/* This is the top "title bar" of the window */}
         <div className="window-title-bar">
           <div className="window-dots"></div>
         </div>
 
-        {/* This container will hold our custom layout */}
         <div className="layout-container">
-          {/* Top Row of Computers */}
           <div className="top-row">
             {allComputers
-              .filter(pc => pc.position.endsWith('C'))
-              .map(computer => (
-                <div 
-                  key={computer.computer_id}
-                  className={`computer-box ${computer.status.toLowerCase()} ${computer.computer_id === selectedComputerId ? 'selected' : ''}`}
-                  onClick={() => handleComputerClick(computer)}
-                >
-                  {computer.position}
-                </div>
-              ))}
+              .filter(pc => pc.table_location && pc.table_location.endsWith('C'))
+              .map(computer => {
+                // 👇 FIXED: Ambil status dari data yang sudah di-join
+                const status = computer.computer_schedule?.[0]?.status || 'unknown';
+                return (
+                  <div 
+                    key={computer.computer_id}
+                    className={`computer-box ${status} ${computer.computer_id === selectedComputerId ? 'selected' : ''}`}
+                    onClick={() => handleComputerClick(computer, status)}
+                  >
+                    {computer.table_location}
+                  </div>
+                )
+              })}
           </div>
 
-          {/* Main area with side columns */}
           <div className="main-area">
-            {/* Left Column */}
             <div className="side-column">
               {allComputers
-                .filter(pc => pc.position.endsWith('A'))
-                .sort((a, b) => b.position.localeCompare(a.position)) // Sorts 5A, 4A, etc.
-                .map(computer => (
-                  <div 
-                    key={computer.computer_id}
-                    className={`computer-box ${computer.status.toLowerCase()} ${computer.computer_id === selectedComputerId ? 'selected' : ''}`}
-                    onClick={() => handleComputerClick(computer)}
-                  >
-                    {computer.position}
-                  </div>
-                ))}
+                .filter(pc => pc.table_location && pc.table_location.endsWith('A'))
+                .sort((a, b) => parseInt(b.table_location) - parseInt(a.table_location))
+                .map(computer => {
+                  const status = computer.computer_schedule?.[0]?.status || 'unknown';
+                  return (
+                    <div 
+                      key={computer.computer_id}
+                      className={`computer-box ${status} ${computer.computer_id === selectedComputerId ? 'selected' : ''}`}
+                      onClick={() => handleComputerClick(computer, status)}
+                    >
+                      {computer.table_location}
+                    </div>
+                  )
+                })}
             </div>
 
-            {/* Right Column */}
             <div className="side-column">
-              {allComputers
-                .filter(pc => pc.position.endsWith('B'))
-                .sort((a, b) => b.position.localeCompare(a.position)) // Sorts 5B, 4B, etc.
-                .map(computer => (
-                  <div 
-                    key={computer.computer_id}
-                    className={`computer-box ${computer.status.toLowerCase()} ${computer.computer_id === selectedComputerId ? 'selected' : ''}`}
-                    onClick={() => handleComputerClick(computer)}
-                  >
-                    {computer.position}
-                  </div>
-                ))}
+               {allComputers
+                .filter(pc => pc.table_location && pc.table_location.endsWith('B'))
+                .sort((a, b) => parseInt(b.table_location) - parseInt(a.table_location))
+                .map(computer => {
+                  const status = computer.computer_schedule?.[0]?.status || 'unknown';
+                  return (
+                    <div 
+                      key={computer.computer_id}
+                      className={`computer-box ${status} ${computer.computer_id === selectedComputerId ? 'selected' : ''}`}
+                      onClick={() => handleComputerClick(computer, status)}
+                    >
+                      {computer.table_location}
+                    </div>
+                  )
+                })}
             </div>
           </div>
           
-          <button className="front-desk-button">Front Desk</button>
+          <div className="front-desk-button">Front Desk</div>
         </div>
 
         <button onClick={handleContinue} className="continue-button" disabled={!selectedComputerId}>Continue</button>
@@ -115,4 +128,4 @@ const BookSessionPage = () => {
   );
 };
 
-export default BookSessionPage;
+export default BookASession;
