@@ -1,16 +1,15 @@
-// src/components/SignUp.jsx (Final Corrected Version - Integrated with Database Trigger)
 import React, { useState } from 'react';
 import { supabase } from '../supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
-import '../style.css'; // Keep your relative import path
+import '../style.css';
 
 const SignUp = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
-    const [gender, setGender] = useState(''); // Only applicable for Employee
-    const [selectedUserType, setSelectedUserType] = useState('customer'); // State for user type selection
+    const [gender, setGender] = useState(''); 
+    const [selectedUserType, setSelectedUserType] = useState('customer');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -21,56 +20,82 @@ const SignUp = () => {
         setError(null);
 
         try {
-            // 1. Prepare user metadata to be sent with Supabase Auth signup.
-            // This data will be available in the 'raw_user_meta_data' column
-            // of the 'auth.users' table and will be read by our database trigger.
+            // Prepare user metadata
             const userMetadata = {
                 user_type: selectedUserType,
-                full_name: name, // Using 'full_name' for consistency with database trigger
+                full_name: name,
                 phone_number: phone,
-                // Only include gender if the user is signing up as an employee
                 ...(selectedUserType === 'employee' && { gender: gender })
             };
 
-            // 2. Create the user in Supabase Auth, passing the metadata.
+            // Create user in Supabase Auth
             const { data: authData, error: authError } = await supabase.auth.signUp({
                 email: email,
                 password: password,
                 options: {
-                    emailRedirectTo: `${window.location.origin}/`, // Optional: Redirect after email verification
-                    data: userMetadata, // Pass the prepared metadata here
+                    emailRedirectTo: `${window.location.origin}/`,
+                    data: userMetadata,
                 },
             });
 
             if (authError) {
                 console.error("Supabase Auth Error:", authError.message);
-                throw authError; // Re-throw to be caught by outer try-catch
+                throw authError;
             }
 
-            // Important: If email confirmation is enabled in Supabase, authData.user will be null
-            // immediately after signUp until the user clicks the verification link in their email.
-            // The database trigger will still fire and create the profile because auth.users record is created.
+            // IMPORTANT: Direct insertion into the correct table based on user type
+            // This ensures the user is properly registered in addition to the trigger
+            if (authData?.user) {
+                if (selectedUserType === 'employee') {
+                    console.log("Manually inserting employee record");
+                    const { error: empError } = await supabase
+                        .from('employee')
+                        .insert([{
+                            employee_id: authData.user.id,
+                            name: name,
+                            email: email,
+                            phone_number: phone,
+                            gender: gender
+                        }]);
+                    
+                    if (empError) {
+                        console.error("Error creating employee record:", empError);
+                    } else {
+                        console.log("Employee record created successfully");
+                    }
+                } else {
+                    // For customers - also do direct insertion as backup
+                    const { error: custError } = await supabase
+                        .from('customer')
+                        .insert([{
+                            customer_id: authData.user.id,
+                            customer_name: name,
+                            email: email,
+                            phone_number: phone
+                        }]);
+                    
+                    if (custError) {
+                        console.error("Error creating customer record:", custError);
+                    } else {
+                        console.log("Customer record created successfully");
+                    }
+                }
+            }
+
             if (!authData || !authData.user) {
-                console.log("Auth user data not immediately available after signup (likely email verification pending).");
+                console.log("Auth user data not immediately available (email verification pending)");
                 alert('Sign up successful! Please check your email to verify your account.');
-                navigate('/login'); // Redirect to login, where they can sign in after verification
-                return; // Exit here, as profile creation is handled by the trigger.
+                navigate('/login');
+                return;
             }
 
-            // If authData.user is immediately available (e.g., email confirmation is off,
-            // or using magic link where user is signed in immediately upon successful signup),
-            // you might want a different toast or flow.
-            // For this setup, we rely on the DB trigger for profile creation.
             console.log("Supabase Auth User created:", authData.user);
             alert('Sign up successful! Please check your email to verify your account.');
-            navigate('/login'); // Redirect to login page for post-verification sign-in
+            navigate('/login');
 
         } catch (error) {
             console.error('Sign Up Process Error:', error.message);
             setError(error.message);
-            // This is where general errors (e.g., network, server issues,
-            // or issues with the initial auth.signUp itself) will be caught.
-            // Display 'error.message' to the user.
         } finally {
             setLoading(false);
         }

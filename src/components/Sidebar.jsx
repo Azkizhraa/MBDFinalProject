@@ -30,16 +30,65 @@ const Sidebar = ({ isOpen, onClose }) => {
           setError(err.message);
           setProfile({ customer_name: 'Error', role: 'user' });
         }
-      };
-
-      fetchProfile();
+      };      fetchProfile();
     }
   }, [isOpen]); // Re-run this effect when 'isOpen' changes
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    onClose(); // Close the sidebar
-    navigate('/login'); // Navigate to login page after logout
+    try {
+      // Clear any local state first
+      setProfile({ customer_name: 'Loading...', role: 'user' });
+      setError('');
+      
+      // Set a timeout to force logout if it takes too long
+      const timeoutId = setTimeout(() => {
+        console.warn('Logout timeout - forcing logout');
+        forceLogout();
+      }, 5000); // 5 second timeout
+      
+      // Sign out from Supabase
+      const { error } = await supabase.auth.signOut();
+      
+      // Clear the timeout if logout was successful
+      clearTimeout(timeoutId);
+      
+      if (error) {
+        console.error('Logout error:', error);
+        // Still proceed with logout even if there's an error
+        forceLogout();
+        return;
+      }
+      
+      // Success - clean up and navigate
+      localStorage.clear();
+      sessionStorage.clear();
+      onClose();
+      navigate('/login', { replace: true });
+      
+    } catch (err) {
+      console.error('Unexpected logout error:', err);
+      // Force logout even if there's an error
+      forceLogout();
+    }
+  };
+
+  const forceLogout = () => {
+    // Clear all data regardless of errors
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Reset state
+    setProfile({ customer_name: 'Loading...', role: 'user' });
+    setError('');
+    
+    // Close sidebar and navigate
+    onClose();
+    navigate('/login', { replace: true });
+    
+    // Force a page reload as a last resort to clear any lingering state
+    setTimeout(() => {
+      window.location.href = '/login';
+    }, 100);
   };
 
   // If it's not open, render nothing.
